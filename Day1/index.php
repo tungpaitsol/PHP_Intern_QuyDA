@@ -41,7 +41,7 @@ if(isset($_POST['button'])) {
 ?>
 <h1>Phuong Trinh Bac 2</h1>
 <form method="post" action="">
-    <input type="text" name="a">x<sup>2</sup> + <input type="text" name="b">x + <input type="text" name="c"> = 0
+    <input type="number" name="a">x<sup>2</sup> + <input type="number" name="b">x + <input type="number" name="c"> = 0
     <input type="submit" name="button" value="ket qua"/>
 </form>
 <?php
