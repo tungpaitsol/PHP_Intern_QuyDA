@@ -9,40 +9,31 @@
 </head>
 <body>
 <?php
-$error = [];
-$push = [];
-
+$prime = [];
 if (isset($_POST['button'])) {
     $a = isset($_POST['a']) ? ($_POST['a']) : '';
 
     if ($a == '') {
-        $error[] = 'Bạn chưa nhập';
-    }
-    if (count($error) > 0) {
-        echo $error[0];
+        echo  'Bạn chưa nhập';
         die();
     }
-    $arrayBig = explode(",",$a);
 
-    foreach ($arrayBig as $t) {
-        $arraySmall = explode("-",$t);
+    $array = explode(",",$a);
 
-        if(!isset($arraySmall[0]) || !is_numeric($arraySmall[0])){
-            $error[] = ' không đúng định dạng';
-        }
-        if(!isset($arraySmall[1]) || !is_numeric($arraySmall[1])){
-            $error[] = ' không đúng định dạng';
-        }
-        if (count($error) > 0) {
-            echo $error[0];
+    foreach ($array as $t) {
+        $arrayChild = explode("-",$t);
+
+        if((!isset($arrayChild[0]) || !is_numeric($arrayChild[0])) || (!isset($arrayChild[1]) || !is_numeric($arrayChild[1]))){
+            echo ' không đúng định dạng';
             die();
         }
-        $number0 = (int)$arraySmall[0];
-        $number1 = (int)$arraySmall[1];
 
-        for($i = $number0; $i <= $number1; $i ++) {
+        $x = (int)$arrayChild[0];
+        $y = (int)$arrayChild[1];
+
+        for($i = $x; $i <= $y; $i ++) {
             if (isPrimeNumber ( $i )) {
-                array_push($push, $i);
+                array_push($prime, $i);
             }
         }
     }
@@ -70,14 +61,15 @@ function isPrimeNumber($n) {
     <input type="submit" name="button" value="ket qua"/>
 </form>
 <?php
-if(count($push) > 0){
+if(count($prime) > 0){
     echo "Các số nguyên tố cần tìm là : ";
-    foreach ($push as $item){
+    foreach ($prime as $item){
         echo ($item . " ");
     }
 }
+
 if (isset($_POST['button'])) {
-    if (count($push) == 0) {
+    if (count($prime) == 0) {
         echo 'không có số nguyên tố thỏa mãn';
     }
 }
