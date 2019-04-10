@@ -9,8 +9,9 @@
 </head>
 <body>
 <?php
-$prime = [];
+//$prime = [];
 if (isset($_POST['button'])) {
+    $prime = [];
     $a = isset($_POST['a']) ? ($_POST['a']) : '';
 
     if ($a == '') {
@@ -22,7 +23,6 @@ if (isset($_POST['button'])) {
 
     foreach ($array as $t) {
         $arrayChild = explode("-",$t);
-
         if((!isset($arrayChild[0]) || !is_numeric($arrayChild[0])) || (!isset($arrayChild[1]) || !is_numeric($arrayChild[1]))){
             echo ' không đúng định dạng';
             die();
@@ -31,12 +31,29 @@ if (isset($_POST['button'])) {
         $x = (int)$arrayChild[0];
         $y = (int)$arrayChild[1];
 
+        if($x >= $y){
+            echo 'số trước phải nhỏ hơn số sau';
+            die();
+        }
         for($i = $x; $i <= $y; $i ++) {
             if (isPrimeNumber ( $i )) {
                 array_push($prime, $i);
             }
+//            else{
+//               array_push($prime, null);
+//            }
         }
     }
+
+    if(count($prime) > 0){
+        echo "Các số nguyên tố cần tìm là : ";
+        foreach ($prime as $item){
+            echo ($item . " ");
+        }
+    }
+    if (count($prime) == 0){
+        echo 'không có số thỏa mãn';
+    };
 }
 
 function isPrimeNumber($n) {
@@ -61,18 +78,13 @@ function isPrimeNumber($n) {
     <input type="submit" name="button" value="ket qua"/>
 </form>
 <?php
-if(count($prime) > 0){
-    echo "Các số nguyên tố cần tìm là : ";
-    foreach ($prime as $item){
-        echo ($item . " ");
-    }
-}
+//if(count($prime) > 0){
+//    echo "Các số nguyên tố cần tìm là : ";
+//    foreach ($prime as $item){
+//            echo ($item . " ");
+//    }
+//}
 
-if (isset($_POST['button'])) {
-    if (count($prime) == 0) {
-        echo 'không có số nguyên tố thỏa mãn';
-    }
-}
 ?>
 
 </body>
