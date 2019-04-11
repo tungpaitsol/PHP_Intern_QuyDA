@@ -44,7 +44,6 @@ if (isset($_POST['button'])) {
 //            }
         }
     }
-
     if(count($prime) > 0){
         echo "Các số nguyên tố cần tìm là : ";
         foreach ($prime as $item){
