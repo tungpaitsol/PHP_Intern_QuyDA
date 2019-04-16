@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bài 2</title>
+    <title>Bài 3</title>
 </head>
 <body>
 <?php session_start();
@@ -14,12 +14,18 @@ if (isset($_POST['tao'])) {
     $array = [];
     $random = [];
     $a = isset($_POST['a']) ? ($_POST['a']) : '';
+
     if ($a == '') {
         echo 'Bạn chưa nhập';
         die();
     }
-    if (!is_numeric($a)) {
+    if (!ctype_digit($a)) {
         echo 'nhập sai định dạng';
+        die();
+    }
+
+    if ($a < 0 || $a == 0) {
+        echo 'chỉ nhận giá trị lớn hơn 0';
         die();
     }
 
@@ -31,11 +37,28 @@ if (isset($_POST['tao'])) {
     if (count($array) > 0) {
         var_dump($array);
     }
+
     $_SESSION['name'] = $array;
 }
 
 if (isset($_POST['chia'])) {
     $a = isset($_POST['a']) ? ($_POST['a']) : '';
+    if ($a == '') {
+        echo 'Bạn chưa nhập';
+        die();
+    }
+    if (!is_numeric($a)) {
+        echo 'nhập sai định dạng';
+        die();
+    }
+
+
+
+    if ($a < 0 || $a == 0) {
+        echo 'chỉ nhận giá trị lớn hơn 0';
+        die();
+    }
+
     if (isset($_SESSION['name'])) {
         $arrayA = [];
         $arrayB = [];
@@ -52,10 +75,12 @@ if (isset($_POST['chia'])) {
 }
 function RandomNumber($n)
 {
+    $k = floor($n / 4);
+    $l = floor(3 * $n / 4);
     $characters = '0123456789';
     $charactersLength = strlen($characters);
     $randomNumber = '';
-    for ($i = ($n / 4); $i <= (3 * $n / 4); $i++) {
+    for ($i = $k; $i <= rand($k, $l); $i++) {
         $randomNumber .= $characters[rand(0, $charactersLength - 1)];
     }
 
@@ -64,12 +89,18 @@ function RandomNumber($n)
 
 function RandomString($m)
 {
+    $o = [];
+    $k = floor($m / 4);
+    $l = floor(3 * $m / 4);
+    //$pp = $l - $k + 1;
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
-    for ($i = ($m / 4); $i <= (3 * $m / 4); $i++) {
+
+    for ($i = $k; $i <= rand($k, $l); $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+
     return $randomString;
 }
 
