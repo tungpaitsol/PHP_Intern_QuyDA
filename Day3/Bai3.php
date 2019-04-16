@@ -80,7 +80,7 @@ function RandomNumber($n)
     $characters = '0123456789';
     $charactersLength = strlen($characters);
     $randomNumber = '';
-    for ($i = $k; $i <= rand($k, $l); $i++) {
+    for ($i = 0; $i < rand($k,$l); $i++) {
         $randomNumber .= $characters[rand(0, $charactersLength - 1)];
     }
 
@@ -89,15 +89,14 @@ function RandomNumber($n)
 
 function RandomString($m)
 {
-    $o = [];
     $k = floor($m / 4);
     $l = floor(3 * $m / 4);
-    //$pp = $l - $k + 1;
+
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
 
-    for ($i = $k; $i <= rand($k, $l); $i++) {
+    for ($i = 0; $i < rand($k,$l); $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
 
