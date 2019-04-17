@@ -80,10 +80,12 @@ function RandomNumber($n)
     $characters = '0123456789';
     $charactersLength = strlen($characters);
     $randomNumber = '';
-    for ($i = 0; $i < rand($k,$l); $i++) {
+    $randomNumber[0] = $characters[rand(1, $charactersLength - 1)];
+
+    for ($i = 1; $i < rand($k,$l); $i++) {
         $randomNumber .= $characters[rand(0, $charactersLength - 1)];
     }
-
+    
     return (int)$randomNumber;
 }
 
