@@ -76,75 +76,73 @@ function RandomString($m)
     return $randomString;
 }
 
-function changePriceOrder($po, $type) {
-    $result = [];
-    foreach ($_SESSION['arr'] as $value) {
-        if (isset($result[$value[$po]])) {
-            $result[$value[$po] + 1] = $value;
-        } else {
-            $result[$value[$po]] = $value;
+function change($type, $column) {
+    $sophantu = count($_SESSION['arr']);
+    for ($i = 0; $i < ($sophantu - 1); $i++) {
+        for ($j = $i + 1; $j < $sophantu; $j++) {
+            if ($type === 'potang') {
+                if ($_SESSION['arr'][$i][$column] > $_SESSION['arr'][$j][$column]) {
+                    $tmp = $_SESSION['arr'][$j];
+                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
+                    $_SESSION['arr'][$i] = $tmp;
+                }
+            } elseif ($type === 'pogiam') {
+                if ($_SESSION['arr'][$i][$column] < $_SESSION['arr'][$j][$column]) {
+                    $tmp = $_SESSION['arr'][$j];
+                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
+                    $_SESSION['arr'][$i] = $tmp;
+                }
+            } elseif ($type === 'totaltang'){
+                if (($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) > ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity'])) {
+                    $tmp = $_SESSION['arr'][$j];
+                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
+                    $_SESSION['arr'][$i] = $tmp;
+                }
+            } else {
+                if (($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) < ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity'])) {
+                    $tmp = $_SESSION['arr'][$j];
+                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
+                    $_SESSION['arr'][$i] = $tmp;
+                }
+            }
         }
     }
-    if ($type === 'tang') {
-        ksort($result);
-    } else {
-        krsort($result);
-    }
 
-    return $result;
-}
-
-function changeTotal($type) {
-    $result = [];
-    foreach ($_SESSION['arr'] as $value) {
-        $tich = $value['price'] * $value['quantity'];
-        if (isset($result[$tich])) {
-            $result[$tich + 1] = $value;
-        } else {
-            $result[$tich] = $value;
-        }
-    }
-    if ($type === 'tang') {
-        ksort($result);
-    } else {
-        krsort($result);
-    }
-
-    return $result;
+    return $_SESSION['arr'];
 }
 
 if (isset($_POST['priceup'])) {
-    foreach (changePriceOrder('price', 'tang') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
-}
-
-if (isset($_POST['orderup'])) {
-    foreach (changePriceOrder('order', 'tang') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
-}
-
-if (isset($_POST['orderdown'])) {
-    foreach (changePriceOrder('order', 'giam') as $value) {
+    foreach (change('potang', 'price') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
 }
 
 if (isset($_POST['pricedown'])) {
-    foreach (changePriceOrder('price', 'giam') as $value) {
+    foreach (change('pogiam', 'price') as $value) {
+        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
+    }
+}
+
+if (isset($_POST['orderup'])) {
+    foreach (change('potang', 'order') as $value) {
+        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
+    }
+}
+
+if (isset($_POST['orderdown'])) {
+    foreach (change('pogiam', 'order') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
 }
 
 if (isset($_POST['totalup'])) {
-    foreach (changeTotal('tang') as $value) {
+    foreach (change('totaltang', 'price') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
 }
 
 if (isset($_POST['totaldown'])) {
-    foreach (changeTotal('giam') as $value) {
+    foreach (change('totalgiam', 'price') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
 }
