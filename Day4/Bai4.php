@@ -9,6 +9,7 @@
 </head>
 <body>
 <?php session_start();
+echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
 
 if (isset($_POST['tao'])) {
     $array = [];
@@ -36,13 +37,12 @@ if (isset($_POST['tao'])) {
     if (count($array) > 0) {
         $_SESSION['arr'] = $array;
     }
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
+// echo :
     foreach ($array as $value) {
         echo "<tr><td>" . $value['id'] . "</td><td>" . $value['name'] . "</td><td>" . $value['price'] . "</td><td>" . $value['quantity'] . "</td><td>" . $value['order'] . "</td></tr>";
     }
-    echo "</table>";
-}
 
+}
 
 function RandomNumber($n)
 {
@@ -76,165 +76,80 @@ function RandomString($m)
     return $randomString;
 }
 
-function priceup(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
-         array_push($z, $value['price']);
-    }
-    sort($z);
-
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            if($value['price'] === $item){
-                array_push($x, $value);
-            }
+function changePriceOrder($po, $type) {
+    $result = [];
+    foreach ($_SESSION['arr'] as $value) {
+        if (isset($result[$value[$po]])) {
+            $result[$value[$po] + 1] = $value;
+        } else {
+            $result[$value[$po]] = $value;
         }
     }
-    return $x;
+    if ($type === 'tang') {
+        ksort($result);
+    } else {
+        krsort($result);
+    }
+
+    return $result;
 }
 
-function pricedown(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
-        array_push($z, $value['price']);
-    }
-    rsort($z);
-
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            if($value['price'] === $item){
-                array_push($x, $value);
-            }
-        }
-    }
-    return $x;
-}
-
-function orderup(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
-        array_push($z, $value['order']);
-    }
-    sort($z);
-
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            if($value['order'] === $item){
-                array_push($x, $value);
-            }
-        }
-    }
-    return $x;
-}
-
-function orderdown(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
-        array_push($z, $value['order']);
-    }
-    rsort($z);
-
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            if($value['order'] === $item){
-                array_push($x, $value);
-            }
-        }
-    }
-    return $x;
-}
-
-function totalup(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
+function changeTotal($type) {
+    $result = [];
+    foreach ($_SESSION['arr'] as $value) {
         $tich = $value['price'] * $value['quantity'];
-        array_push($z, $tich);
-    }
-    sort($z);
-
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            $tich = $value['price'] * $value['quantity'];
-            if($tich === $item){
-                array_push($x, $value);
-            }
+        if (isset($result[$tich])) {
+            $result[$tich + 1] = $value;
+        } else {
+            $result[$tich] = $value;
         }
     }
-    return $x;
-}
-
-function totaldown(){
-    $z = [];
-    $x = [];
-    foreach ($_SESSION['arr'] as $value){
-        $tich = $value['price'] * $value['quantity'];
-        array_push($z, $tich);
+    if ($type === 'tang') {
+        ksort($result);
+    } else {
+        krsort($result);
     }
-    rsort($z);
 
-    foreach ($z as $item){
-        foreach ($_SESSION['arr'] as $value){
-            $tich = $value['price'] * $value['quantity'];
-            if($tich === $item){
-                array_push($x, $value);
-            }
-        }
-    }
-    return $x;
+    return $result;
 }
 
 if (isset($_POST['priceup'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (priceup() as $value) {
+    foreach (changePriceOrder('price', 'tang') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
 
 if (isset($_POST['orderup'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (orderup() as $value) {
+    foreach (changePriceOrder('order', 'tang') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
 
 if (isset($_POST['orderdown'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (orderdown() as $value) {
+    foreach (changePriceOrder('order', 'giam') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
 
 if (isset($_POST['pricedown'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (pricedown() as $value) {
+    foreach (changePriceOrder('price', 'giam') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
 
 if (isset($_POST['totalup'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (totalup() as $value) {
+    foreach (changeTotal('tang') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
 
 if (isset($_POST['totaldown'])) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (totaldown() as $value) {
+    foreach (changeTotal('giam') as $value) {
         echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
     }
-    echo "</table>";
 }
+
+echo "</table>";
 
 ?>
 <form method="post" action="">
@@ -247,6 +162,5 @@ if (isset($_POST['totaldown'])) {
     <input type="submit" name="totalup" value="tổng tăng"/>
     <input type="submit" name="totaldown" value="tổng giảm"/>
 </form>
-
 </body>
 </html>
