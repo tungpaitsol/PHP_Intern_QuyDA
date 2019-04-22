@@ -9,7 +9,6 @@
 </head>
 <body>
 <?php session_start();
-echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
 
 if (isset($_POST['tao'])) {
     $array = [];
@@ -38,6 +37,7 @@ if (isset($_POST['tao'])) {
         $_SESSION['arr'] = $array;
     }
 // echo :
+    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
     foreach ($array as $value) {
         echo "<tr><td>" . $value['id'] . "</td><td>" . $value['name'] . "</td><td>" . $value['price'] . "</td><td>" . $value['quantity'] . "</td><td>" . $value['order'] . "</td></tr>";
     }
@@ -76,75 +76,59 @@ function RandomString($m)
     return $randomString;
 }
 
+function hoanvi($type, $j, $i, $sossanh){
+    if ($type) {
+        if ($sossanh) {
+                $tmp = $_SESSION['arr'][$j];
+                $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
+                $_SESSION['arr'][$i] = $tmp;
+        }
+    }
+}
+
 function change($type, $column) {
     $sophantu = count($_SESSION['arr']);
     for ($i = 0; $i < ($sophantu - 1); $i++) {
         for ($j = $i + 1; $j < $sophantu; $j++) {
-            if ($type === 'potang') {
-                if ($_SESSION['arr'][$i][$column] > $_SESSION['arr'][$j][$column]) {
-                    $tmp = $_SESSION['arr'][$j];
-                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
-                    $_SESSION['arr'][$i] = $tmp;
-                }
-            } elseif ($type === 'pogiam') {
-                if ($_SESSION['arr'][$i][$column] < $_SESSION['arr'][$j][$column]) {
-                    $tmp = $_SESSION['arr'][$j];
-                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
-                    $_SESSION['arr'][$i] = $tmp;
-                }
-            } elseif ($type === 'totaltang'){
-                if (($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) > ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity'])) {
-                    $tmp = $_SESSION['arr'][$j];
-                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
-                    $_SESSION['arr'][$i] = $tmp;
-                }
-            } else {
-                if (($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) < ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity'])) {
-                    $tmp = $_SESSION['arr'][$j];
-                    $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
-                    $_SESSION['arr'][$i] = $tmp;
-                }
-            }
+            hoanvi($type === 'potang', $j, $i, $_SESSION['arr'][$i][$column] > $_SESSION['arr'][$j][$column]);
+            hoanvi($type === 'pogiam', $j, $i, $_SESSION['arr'][$i][$column] < $_SESSION['arr'][$j][$column]);
+            hoanvi($type === 'totaltang', $j, $i, ($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) > ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity']));
+            hoanvi($type === 'totalgiam', $j, $i, ($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) < ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity']));
         }
     }
 
     return $_SESSION['arr'];
 }
 
-if (isset($_POST['priceup'])) {
-    foreach (change('potang', 'price') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
+function hienthi($z, $x){
+    echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
+    foreach (change($z, $x) as $value) {
+        echo "<tr><td>" . $value['id'] . "</td><td>" . $value['name'] . "</td><td>" . $value['price'] . "</td><td>" . $value['quantity'] . "</td><td>" . $value['order'] . "</td></tr>";
     }
+}
+
+if (isset($_POST['priceup'])) {
+    hienthi('potang', 'price');
 }
 
 if (isset($_POST['pricedown'])) {
-    foreach (change('pogiam', 'price') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
+    hienthi('pogiam', 'price');
 }
 
 if (isset($_POST['orderup'])) {
-    foreach (change('potang', 'order') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
+    hienthi('potang', 'order');
 }
 
 if (isset($_POST['orderdown'])) {
-    foreach (change('pogiam', 'order') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
+    hienthi('pogiam', 'order');
 }
 
 if (isset($_POST['totalup'])) {
-    foreach (change('totaltang', 'price') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
+    hienthi('totaltang', 'price');
 }
 
 if (isset($_POST['totaldown'])) {
-    foreach (change('totalgiam', 'price') as $value) {
-        echo "<tr><td>".$value['id']."</td><td>".$value['name']."</td><td>".$value['price']."</td><td>".$value['quantity']."</td><td>".$value['order']."</td></tr>";
-    }
+    hienthi('totalgiam', 'price');
 }
 
 echo "</table>";
