@@ -53,7 +53,7 @@ function RandomNumber($n)
     $randomNumber = '';
     $randomNumber[0] = $characters[rand(1, $charactersLength - 1)];
 
-    for ($i = 1; $i < rand($k,$l); $i++) {
+    for ($i = 1; $i < rand($k, $l); $i++) {
         $randomNumber .= $characters[rand(0, $charactersLength - 1)];
     }
 
@@ -69,66 +69,77 @@ function RandomString($m)
     $charactersLength = strlen($characters);
     $randomString = '';
 
-    for ($i = 0; $i < rand($k,$l); $i++) {
+    for ($i = 0; $i < rand($k, $l); $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
 
     return $randomString;
 }
 
-function hoanvi($type, $j, $i, $sossanh){
+function hoanvi($type, $sosanh, $j, $i, &$arr)
+{
     if ($type) {
-        if ($sossanh) {
-                $tmp = $_SESSION['arr'][$j];
-                $_SESSION['arr'][$j] = $_SESSION['arr'][$i];
-                $_SESSION['arr'][$i] = $tmp;
+        if ($sosanh) {
+            $tmp = $arr[$j];
+            $arr[$j] = $arr[$i];
+            $arr[$i] = $tmp;
         }
     }
+
+    return $arr;
 }
 
-function change($type, $column) {
-    $sophantu = count($_SESSION['arr']);
+function change($type, $column, $arr)
+{
+    $sophantu = count($arr);
     for ($i = 0; $i < ($sophantu - 1); $i++) {
         for ($j = $i + 1; $j < $sophantu; $j++) {
-            hoanvi($type === 'potang', $j, $i, $_SESSION['arr'][$i][$column] > $_SESSION['arr'][$j][$column]);
-            hoanvi($type === 'pogiam', $j, $i, $_SESSION['arr'][$i][$column] < $_SESSION['arr'][$j][$column]);
-            hoanvi($type === 'totaltang', $j, $i, ($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) > ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity']));
-            hoanvi($type === 'totalgiam', $j, $i, ($_SESSION['arr'][$i][$column] * $_SESSION['arr'][$i]['quantity']) < ($_SESSION['arr'][$j][$column] * $_SESSION['arr'][$j]['quantity']));
+            hoanvi($type === 'potang', $arr[$i][$column] > $arr[$j][$column], $j, $i, $arr);
+            hoanvi($type === 'pogiam', $arr[$i][$column] < $arr[$j][$column], $j, $i, $arr);
+            hoanvi($type === 'totaltang', ($arr[$i][$column] * $arr[$i]['quantity']) > ($arr[$j][$column] * $arr[$j]['quantity']), $j, $i, $arr);
+            hoanvi($type === 'totalgiam', ($arr[$i][$column] * $arr[$i]['quantity']) < ($arr[$j][$column] * $arr[$j]['quantity']), $j, $i, $arr);
         }
     }
 
-    return $_SESSION['arr'];
+    return $arr;
 }
 
-function hienthi($z, $x){
+function hienthi($type, $column, $arr)
+{
     echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-    foreach (change($z, $x) as $value) {
+    foreach (change($type, $column, $arr) as $value) {
         echo "<tr><td>" . $value['id'] . "</td><td>" . $value['name'] . "</td><td>" . $value['price'] . "</td><td>" . $value['quantity'] . "</td><td>" . $value['order'] . "</td></tr>";
     }
 }
 
 if (isset($_POST['priceup'])) {
-    hienthi('potang', 'price');
+    $arr = $_SESSION['arr'];
+    hienthi('potang', 'price', $arr);
 }
 
 if (isset($_POST['pricedown'])) {
-    hienthi('pogiam', 'price');
+    $arr = $_SESSION['arr'];
+    hienthi('pogiam', 'price', $arr);
 }
 
 if (isset($_POST['orderup'])) {
-    hienthi('potang', 'order');
+    $arr = $_SESSION['arr'];
+    hienthi('potang', 'order', $arr);
 }
 
 if (isset($_POST['orderdown'])) {
-    hienthi('pogiam', 'order');
+    $arr = $_SESSION['arr'];
+    hienthi('pogiam', 'order', $arr);
 }
 
 if (isset($_POST['totalup'])) {
-    hienthi('totaltang', 'price');
+    $arr = $_SESSION['arr'];
+    hienthi('totaltang', 'price', $arr);
 }
 
 if (isset($_POST['totaldown'])) {
-    hienthi('totalgiam', 'price');
+    $arr = $_SESSION['arr'];
+    hienthi('totalgiam', 'price', $arr);
 }
 
 echo "</table>";
