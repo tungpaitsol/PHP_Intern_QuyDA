@@ -25,9 +25,23 @@
             $_SESSION['arr'] = $array;
         }
 
-        echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
+        echo "<table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Order</th>
+                </tr>";
         foreach ($array as $value) {
-            echo "<tr><td><input type='text' name='idd[id][]' value=" . $value['id'] . "></td><td><input type='text' name='namee[name][]' value=" . $value['name'] . "></td><td><input type='text' name='pricee[price][]' value=" . $value['price'] . "></td><td><input type='text' name='quantityy[quantity][]' value=" . $value['quantity'] . "></td><td><input type='text' name='orderupp[order][]' value=" . $value['order'] . "></td></tr>";
+            echo
+                "<tr>
+                    <td>" . $value['id'] . "</td>
+                    <td>" . $value['name'] . "</td>
+                    <td>" . $value['price'] . "</td>
+                    <td>" . $value['quantity'] . "</td>
+                    <td><input type='text' name='orderupp[order][]' value=" . $value['order'] . "></td>
+                </tr>";
         }
 
     }
@@ -72,7 +86,7 @@
                 $arr[$j] = $arr[$i];
                 $arr[$i] = $tmp;
             }
-            if(($arr[$i][$column] == $arr[$j][$column]) && ($arr[$i]['id'] > $arr[$j]['id'])){
+            if (($arr[$i][$column] == $arr[$j][$column]) && ($arr[$i]['id'] > $arr[$j]['id'])) {
                 $tmp = $arr[$j];
                 $arr[$j] = $arr[$i];
                 $arr[$i] = $tmp;
@@ -93,31 +107,63 @@
                 hoanvi($type === 'totalgiam', ($arr[$i][$column] * $arr[$i]['quantity']) < ($arr[$j][$column] * $arr[$j]['quantity']), $j, $i, $arr, $column);
             }
         }
-
+        $_SESSION['arr'] = $arr;
         return $arr;
+    }
+
+    function hienthi($type, $column, $arr)
+    {
+        echo "<table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Order</th>
+                </tr>";
+        foreach (change($type, $column, $arr) as $value) {
+           echo
+               "<tr>
+                    <td>" . $value['id'] . "</td>
+                    <td>" . $value['name'] . "</td>
+                    <td>" . $value['price'] . "</td>
+                    <td>" . $value['quantity'] . "</td>
+                    <td><input type='text' name='orderupp[order][]' value=" . $value['order'] . "></td>
+               </tr>";
+        }
     }
 
     if (isset($_POST['orderup'])) {
         $arr = $_SESSION['arr'];
-
-        $id = $_POST['idd'];
-        $name = $_POST['namee'];
-        $price = $_POST['pricee'];
-        $quantity = $_POST['quantityy'];
         $orderup = $_POST['orderupp'];
-
         for ($i = 0; $i < count($arr); $i++) {
             $arr[$i]['order'] = $orderup['order'][$i];
-            $arr[$i]['quantity'] = $quantity['quantity'][$i];
-            $arr[$i]['price'] = $price['price'][$i];
-            $arr[$i]['name'] = $name['name'][$i];
-            $arr[$i]['id'] = $id['id'][$i];
         }
+        hienthi('potang', 'order', $arr);
+    }
+    if (isset($_POST['orderdown'])) {
+        $arr = $_SESSION['arr'];
+        hienthi('pogiam', 'order', $arr);
+    }
 
-        echo "<table><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Order</th></tr>";
-        foreach (change('potang','order', $arr) as $value) {
-            echo "<tr><td><input type='text' name='idd[id][]' value=" . $value['id'] . "></td><td><input type='text' name='namee[name][]' value=" . $value['name'] . "></td><td><input type='text' name='pricee[price][]' value=" . $value['price'] . "></td><td><input type='text' name='quantityy[quantity][]' value=" . $value['quantity'] . "></td><td><input type='text' name='orderupp[order][]' value=" . $value['order'] . "></td></tr>";
-        }
+    if (isset($_POST['priceup'])) {
+        $arr = $_SESSION['arr'];
+        hienthi('potang', 'price', $arr);
+    }
+
+    if (isset($_POST['pricedown'])) {
+        $arr = $_SESSION['arr'];
+        hienthi('pogiam', 'price', $arr);
+    }
+
+    if (isset($_POST['totalup'])) {
+        $arr = $_SESSION['arr'];
+        hienthi('totaltang', 'price', $arr);
+    }
+
+    if (isset($_POST['totaldown'])) {
+        $arr = $_SESSION['arr'];
+        hienthi('totalgiam', 'price', $arr);
     }
 
     echo "</table>";
@@ -126,6 +172,11 @@
     <input type="text" name="a" value="<?php echo isset($a) ? $a : '' ?>">
     <input type="submit" name="tao" value="submit"/>
     <input type="submit" name="orderup" value="order tăng"/>
+    <input type="submit" name="orderdown" value="order giảm"/>
+    <input type="submit" name="priceup" value="price tăng"/>
+    <input type="submit" name="pricedown" value="price giảm"/>
+    <input type="submit" name="totalup" value="tổng tăng"/>
+    <input type="submit" name="totaldown" value="tổng giảm"/>
 </form>
 </body>
 </html>
