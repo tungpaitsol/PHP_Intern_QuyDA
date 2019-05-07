@@ -19,7 +19,7 @@ if (isset($_POST['tao'])) {
 
 if (isset($_POST['luu'])) {
     $arr = $_SESSION['arr'];
-    $orderup = $_POST['orderupp'];
+    $orderup = $_POST['orders'];
 
     for ($i = 0; $i < count($arr); $i++) {
         $arr[$i]['order'] = $orderup['order'][$i];
@@ -42,7 +42,7 @@ if (isset($_POST['luu'])) {
 
 if (isset($_POST['orderup']) && $_SESSION['luu'] == 1) {
     $arr = $_SESSION['arr'];
-    $orderup = $_POST['orderupp'];
+    $orderup = $_POST['orders'];
 
     for ($i = 0; $i < count($arr); $i++) {
         $arr[$i]['order'] = $orderup['order'][$i];
@@ -74,7 +74,7 @@ if (isset($_POST['orderup']) && $_SESSION['luu'] == 1) {
                         <td><?php echo $itemt['price'] ?></td>
                         <td><?php echo $itemt['quantity'] ?></td>
                         <td>
-                            <input type='text' name='orderupp[order][]' value="<?php echo $itemt['order'] ?>">
+                            <input type='text' name='orders[order][]' value="<?php echo $itemt['order'] ?>">
                         </td>
                     </tr>
                 <?php } ?>
