@@ -181,10 +181,10 @@ class ListMonthWorks
 
     }
 
-    public function day_of_work($member_fulltime)
+    public function day_of_work($member)
     {
-        for ($i = 0; $i < count($member_fulltime); $i++) {
-            $member_fulltime[$i]->setWorkdays($this->day_of_work[$i]);
+        for ($i = 0; $i < count($member); $i++) {
+            $member[$i]->setWorkdays($this->day_of_work[$i]);
         }
     }
 
@@ -256,59 +256,30 @@ class ListMonthWorks
         return $this->arrayAllMonth;
     }
 
-    public function Money($member_fulltime)
+    public function Money($member)
     {
-        for ($i = 0; $i < count($member_fulltime); $i++) {
-            if (!isset($this->arrayAllMonth[0][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[0][(int)$member_fulltime[$i]->getCode()] = 0;
+        for ($k = 0; $k < count($this->arrayAllMonth); $k++) {
+            for ($i = 0; $i < count($member); $i++) {
+                if (!isset($this->arrayAllMonth[$k][(int)$member[$i]->getCode()])) {
+                    $this->arrayAllMonth[$k][(int)$member[$i]->getCode()] = 0;
+                }
             }
-            if (!isset($this->arrayAllMonth[1][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[1][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[2][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[2][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[3][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[3][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[4][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[4][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[5][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[5][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[6][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[6][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[7][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[7][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[8][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[8][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[9][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[9][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[10][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[10][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
-            if (!isset($this->arrayAllMonth[11][(int)$member_fulltime[$i]->getCode()])) {
-                $this->arrayAllMonth[11][(int)$member_fulltime[$i]->getCode()] = 0;
-            }
+        }
 
+        for ($i = 0; $i < count($member); $i++) {
             $real_money =
-                $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-01-01'), new DateTime('2019-01-31')) * $this->arrayAllMonth[0][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-02-01'), new DateTime('2019-02-28')) * $this->arrayAllMonth[1][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-03-01'), new DateTime('2019-03-31')) * $this->arrayAllMonth[2][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30')) * $this->arrayAllMonth[3][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-05-01'), new DateTime('2019-05-31')) * $this->arrayAllMonth[4][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-06-01'), new DateTime('2019-06-30')) * $this->arrayAllMonth[5][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-07-01'), new DateTime('2019-07-31')) * $this->arrayAllMonth[6][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-08-01'), new DateTime('2019-08-31')) * $this->arrayAllMonth[7][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-09-01'), new DateTime('2019-09-30')) * $this->arrayAllMonth[8][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-10-01'), new DateTime('2019-10-31')) * $this->arrayAllMonth[9][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-11-01'), new DateTime('2019-11-30')) * $this->arrayAllMonth[10][(int)$member_fulltime[$i]->getCode()]
-                + $member_fulltime[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-12-01'), new DateTime('2019-12-31')) * $this->arrayAllMonth[11][(int)$member_fulltime[$i]->getCode()];
+                $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-01-01'), new DateTime('2019-01-31')) * $this->arrayAllMonth[0][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-02-01'), new DateTime('2019-02-28')) * $this->arrayAllMonth[1][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-03-01'), new DateTime('2019-03-31')) * $this->arrayAllMonth[2][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30')) * $this->arrayAllMonth[3][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-05-01'), new DateTime('2019-05-31')) * $this->arrayAllMonth[4][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-06-01'), new DateTime('2019-06-30')) * $this->arrayAllMonth[5][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-07-01'), new DateTime('2019-07-31')) * $this->arrayAllMonth[6][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-08-01'), new DateTime('2019-08-31')) * $this->arrayAllMonth[7][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-09-01'), new DateTime('2019-09-30')) * $this->arrayAllMonth[8][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-10-01'), new DateTime('2019-10-31')) * $this->arrayAllMonth[9][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-11-01'), new DateTime('2019-11-30')) * $this->arrayAllMonth[10][(int)$member[$i]->getCode()]
+                + $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-12-01'), new DateTime('2019-12-31')) * $this->arrayAllMonth[11][(int)$member[$i]->getCode()];
 
             array_push($this->money, $real_money);
         }
@@ -316,10 +287,10 @@ class ListMonthWorks
         return $this->money;
     }
 
-    public function member($member_fulltime)
+    public function member($member)
     {
-        for ($i = 0; $i < count($member_fulltime); $i++) {
-            $member_fulltime[$i]->setSalary($this->money[$i]);
+        for ($i = 0; $i < count($member); $i++) {
+            $member[$i]->setSalary($this->money[$i]);
         }
     }
 
@@ -327,23 +298,19 @@ class ListMonthWorks
 
 $fulltime = new ListMonthWorks();
 $fulltime->Month($worktime);
-
 $fulltime->AllMonth_fulltime($member_fulltime);
 $fulltime->Money($member_fulltime);
 $fulltime->member($member_fulltime);
 $fulltime->get_day_of_work_fulltime($member_fulltime, $worktime);
 $fulltime->day_of_work($member_fulltime);
 
-
 $parttime = new ListMonthWorks();
 $parttime->Month($worktime);
-
 $parttime->AllMonth_parttime($member_parttime);
 $parttime->Money($member_parttime);
 $parttime->member($member_parttime);
 $parttime->get_day_of_work_parttime($member_parttime, $worktime);
 $parttime->day_of_work($member_parttime);
-
 
 print_r($member_fulltime);
 print_r($member_parttime);
