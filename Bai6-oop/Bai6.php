@@ -4,16 +4,28 @@ require 'Bai-1.data.php';
 class Member
 {
     private $code;
+    private $full_name;
+    private $age;
+    private $marital_status;
+    private $total_work_time;
     private $salary;
+    private $start_work_time;
     private $workdays;
     private $workhour;
+    private $has_lunch_break;
 
-    public function __construct($_code, $_salary, $_workdays, $_workhour)
+    public function __construct($_code, $_full_name, $_age, $_marital_status, $_salary, $_start_work_time, $_workhour, $_has_lunch_break, $_total_work_time = 0, $_workdays = 0)
     {
         $this->code = $_code;
+        $this->full_name = $_full_name;
+        $this->age = $_age;
+        $this->marital_status = $_marital_status;
+        $this->total_work_time = $_total_work_time;
         $this->salary = $_salary;
+        $this->start_work_time = $_start_work_time;
         $this->workdays = $_workdays;
         $this->workhour = $_workhour;
+        $this->has_lunch_break = $_has_lunch_break;
     }
 
     public function setSalary($_salary)
@@ -37,9 +49,34 @@ class Member
         return $this->code;
     }
 
+    public function getFullName()
+    {
+        return $this->full_name;
+    }
+
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    public function getMaritalStatus()
+    {
+        return $this->marital_status;
+    }
+
+    public function getTotalWorkTime()
+    {
+        return $this->total_work_time;
+    }
+
     public function getSalary()
     {
         return $this->salary;
+    }
+
+    public function getStartWorkTime()
+    {
+        return $this->start_work_time;
     }
 
     public function getWorkdays()
@@ -52,7 +89,10 @@ class Member
         return $this->workhour;
     }
 
-
+    public function getHasLunchBreak()
+    {
+        return $this->has_lunch_break;
+    }
 }
 
 class ListWorkTime
@@ -87,14 +127,14 @@ class ListWorkTime
 $member_fulltime = [];
 
 for ($i = 0; $i < count($listMemberFullTime); $i++) {
-    array_push($member_fulltime, $x = new Member($listMemberFullTime[$i]['code'], $listMemberFullTime[$i]['salary'], $listMemberFullTime[$i]['workdays'], $listMemberFullTime[$i]['work_hour']));
+    array_push($member_fulltime, $x = new Member($listMemberFullTime[$i]['code'], $listMemberFullTime[$i]['full_name'],$listMemberFullTime[$i]['age'],$listMemberFullTime[$i]['marital_status'],$listMemberFullTime[$i]['salary'],$listMemberFullTime[$i]['start_work_time'], $listMemberFullTime[$i]['work_hour'],$listMemberFullTime[$i]['has_lunch_break']));
 
 }
 
 $member_parttime = [];
 
 for ($i = 0; $i < count($listMemberPartTime); $i++) {
-    array_push($member_parttime, $y = new Member($listMemberPartTime[$i]['code'], $listMemberPartTime[$i]['salary'], $listMemberPartTime[$i]['workdays'], $listMemberPartTime[$i]['work_hour']));
+    array_push($member_parttime, $y = new Member($listMemberPartTime[$i]['code'], $listMemberPartTime[$i]['full_name'],$listMemberPartTime[$i]['age'],$listMemberPartTime[$i]['marital_status'],$listMemberPartTime[$i]['salary'],$listMemberPartTime[$i]['start_work_time'], $listMemberPartTime[$i]['work_hour'],$listMemberPartTime[$i]['has_lunch_break']));
 
 }
 
@@ -137,10 +177,10 @@ class WorkDay
 
 class ListMonthWorks
 {
-    public $listMonth = [[], [], [], [], [], [], [], [], [], [], [], []];
-    public $arrayAllMonth = [];
-    public $money = [];
-    public $day_of_work = [];
+    private $listMonth = [[], [], [], [], [], [], [], [], [], [], [], []];
+    private $arrayAllMonth = [];
+    private $money = [];
+    private $day_of_work = [];
 
     public function get_day_of_work_fulltime($member_fulltime, $workday)
     {
@@ -263,8 +303,48 @@ class ListMonthWorks
                 if (!isset($this->arrayAllMonth[$k][(int)$member[$i]->getCode()])) {
                     $this->arrayAllMonth[$k][(int)$member[$i]->getCode()] = 0;
                 }
+
             }
         }
+
+//        for ($i = 0; $i < count($member); $i++) {
+//            if (!isset($this->arrayAllMonth[0][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[0][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[1][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[1][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[2][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[2][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[3][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[3][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[4][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[4][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[5][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[5][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[6][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[6][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[7][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[7][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[8][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[8][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[9][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[9][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[10][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[10][(int)$member[$i]->getCode()] = 0;
+//            }
+//            if (!isset($this->arrayAllMonth[11][(int)$member[$i]->getCode()])) {
+//                $this->arrayAllMonth[11][(int)$member[$i]->getCode()] = 0;
+//            }
+//        }
 
         for ($i = 0; $i < count($member); $i++) {
             $real_money =
@@ -304,6 +384,7 @@ $fulltime->member($member_fulltime);
 $fulltime->get_day_of_work_fulltime($member_fulltime, $worktime);
 $fulltime->day_of_work($member_fulltime);
 
+
 $parttime = new ListMonthWorks();
 $parttime->Month($worktime);
 $parttime->AllMonth_parttime($member_parttime);
@@ -311,6 +392,7 @@ $parttime->Money($member_parttime);
 $parttime->member($member_parttime);
 $parttime->get_day_of_work_parttime($member_parttime, $worktime);
 $parttime->day_of_work($member_parttime);
+
 
 print_r($member_fulltime);
 print_r($member_parttime);
