@@ -307,45 +307,6 @@ class ListMonthWorks
             }
         }
 
-//        for ($i = 0; $i < count($member); $i++) {
-//            if (!isset($this->arrayAllMonth[0][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[0][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[1][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[1][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[2][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[2][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[3][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[3][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[4][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[4][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[5][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[5][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[6][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[6][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[7][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[7][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[8][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[8][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[9][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[9][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[10][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[10][(int)$member[$i]->getCode()] = 0;
-//            }
-//            if (!isset($this->arrayAllMonth[11][(int)$member[$i]->getCode()])) {
-//                $this->arrayAllMonth[11][(int)$member[$i]->getCode()] = 0;
-//            }
-//        }
-
         for ($i = 0; $i < count($member); $i++) {
             $real_money =
                 $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-01-01'), new DateTime('2019-01-31')) * $this->arrayAllMonth[0][(int)$member[$i]->getCode()]
@@ -393,7 +354,5 @@ $parttime->member($member_parttime);
 $parttime->get_day_of_work_parttime($member_parttime, $worktime);
 $parttime->day_of_work($member_parttime);
 
-
 print_r($member_fulltime);
 print_r($member_parttime);
-

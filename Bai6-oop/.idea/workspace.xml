@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9dcbd338-2023-40e7-b57c-49983463d9bc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai4/Bai4-chuan.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai4/Bai4-chuan.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai4/Bai4-de-hieu.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai4/Bai4-de-hieu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai5/Bai5.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai5/Bai5.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bai-1.data.php" beforeDir="false" afterPath="$PROJECT_DIR$/Bai-1.data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/test.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/.idea/Day1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day1/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day2/.idea/Day2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day2/Bai2.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day3/Bai3.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Day4/Bai4.php" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Bai6.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-813">
+              <caret line="295" column="36" lean-forward="true" selection-start-line="295" selection-start-column="36" selection-end-line="295" selection-end-column="36" />
+              <folding>
+                <element signature="e#7560#7611#0#PHP" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Bai-1.data.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-204">
+              <caret line="9" column="30" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1192">
+              <caret line="498" column="1" lean-forward="true" selection-start-line="498" selection-start-column="1" selection-end-line="498" selection-end-column="1" />
+              <folding>
+                <element signature="e#6285#6342#0#PHP" />
+                <element signature="e#10419#10449#0#PHP" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>fulltime(</find>
+      <find>money</find>
+      <find>money(</find>
+      <find>$arrayAllMonth</find>
+      <find>getWorkdays</find>
+      <find>get_day_of_work</find>
+      <find>AllMonth</find>
+      <find>arrayAllMonth</find>
+      <find>arrayAllMonth_parttime</find>
+      <find>listMonth_fulltime</find>
+      <find>print_r</find>
+      <find>money_parttime</find>
+      <find>Money_parttime</find>
+      <find>tinhcong</find>
+      <find>$count</find>
+      <find>get_day_of_work_parttime</find>
+      <find>day_of_work_parttime</find>
+      <find>AllMonth_fulltime</find>
+      <find>get_day_of_work_fulltime</find>
+      <find>Money_fulltime</find>
+      <find>member_fulltime</find>
+      <find>arrayAllMonth_fulltime</find>
+      <find>money_fulltime</find>
+      <find>day_of_work_fulltime</find>
+      <find>listMonth</find>
+      <find>day_of_work</find>
+      <find>DatePeriod</find>
+      <find>setWorkhour</find>
+      <find>setSalary</find>
+      <find>setWorkdays</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/zzz.php" />
+        <option value="$PROJECT_DIR$/test.php" />
+        <option value="$PROJECT_DIR$/Bai-1.data.php" />
+        <option value="$PROJECT_DIR$/Bai6.php" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/Bai6-oop.iml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Bai6-oop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bai6-oop" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Bai3" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9dcbd338-2023-40e7-b57c-49983463d9bc" name="Default Changelist" comment="" />
+      <created>1557283074690</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1557283074690</updated>
+      <workItem from="1557283075862" duration="8987000" />
+      <workItem from="1557367073971" duration="6371000" />
+      <workItem from="1557454568314" duration="1917000" />
+      <workItem from="1557730173698" duration="2205000" />
+      <workItem from="1557800058062" duration="2513000" />
+      <workItem from="1557910968027" duration="752000" />
+      <workItem from="1557918986993" duration="2521000" />
+      <workItem from="1557973110432" duration="12696000" />
+      <workItem from="1558059688683" duration="8543000" />
+      <workItem from="1558319896946" duration="3480000" />
+      <workItem from="1558336836277" duration="19064000" />
+      <workItem from="1558404283253" duration="28372000" />
+      <workItem from="1558595715555" duration="12075000" />
+      <workItem from="1558620980773" duration="14700000" />
+      <workItem from="1558662766258" duration="10384000" />
+      <workItem from="1558679063324" duration="14593000" />
+      <workItem from="1558707548885" duration="90000" />
+      <workItem from="1558922448525" duration="15435000" />
+      <workItem from="1558940920619" duration="10394000" />
+      <workItem from="1558951483248" duration="2722000" />
+      <workItem from="1558970683883" duration="28000" />
+      <workItem from="1559008975041" duration="10478000" />
+      <workItem from="1559024008458" duration="12507000" />
+      <workItem from="1559054981992" duration="469000" />
+      <workItem from="1559095191917" duration="14769000" />
+      <workItem from="1559182303719" duration="6997000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="223062000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12178517" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.198036" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/giphy.gif" />
+    <entry file="file://$PROJECT_DIR$/zzz.php" />
+    <entry file="file://$PROJECT_DIR$/Bai-1.data.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1192">
+          <caret line="498" column="1" lean-forward="true" selection-start-line="498" selection-start-column="1" selection-end-line="498" selection-end-column="1" />
+          <folding>
+            <element signature="e#6285#6342#0#PHP" />
+            <element signature="e#10419#10449#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bai6.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-813">
+          <caret line="295" column="36" lean-forward="true" selection-start-line="295" selection-start-column="36" selection-end-line="295" selection-end-column="36" />
+          <folding>
+            <element signature="e#7560#7611#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
