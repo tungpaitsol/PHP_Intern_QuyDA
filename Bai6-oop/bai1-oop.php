@@ -127,10 +127,12 @@ $member_fulltime = [];
 for ($i = 0; $i < count($listMemberFullTime); $i++) {
     array_push($member_fulltime, $x = new Member($listMemberFullTime[$i]['code'], $listMemberFullTime[$i]['full_name'], $listMemberFullTime[$i]['age'], $listMemberFullTime[$i]['marital_status'], $listMemberFullTime[$i]['salary'], $listMemberFullTime[$i]['start_work_time'], $listMemberFullTime[$i]['work_hour'], $listMemberFullTime[$i]['has_lunch_break']));
 }
+
 $member_parttime = [];
 for ($i = 0; $i < count($listMemberPartTime); $i++) {
     array_push($member_parttime, $y = new Member($listMemberPartTime[$i]['code'], $listMemberPartTime[$i]['full_name'], $listMemberPartTime[$i]['age'], $listMemberPartTime[$i]['marital_status'], $listMemberPartTime[$i]['salary'], $listMemberPartTime[$i]['start_work_time'], $listMemberPartTime[$i]['work_hour'], $listMemberPartTime[$i]['has_lunch_break']));
 }
+
 $worktime = [];
 for ($i = 0; $i < count($listWorkTime); $i++) {
     array_push($worktime, $z = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']));
@@ -155,7 +157,6 @@ class WorkDay
     public static function getWorkingDays($start, $end)
     {
         $day = WorkDay::getDay($end, $start);
-
         foreach (WorkDay::getPeriod($end, $start) as $dt) {
             $curr = $dt->format('D');
             if ($curr == 'Sat' || $curr == 'Sun') {
@@ -171,132 +172,55 @@ class WorkDay
 
 class ListMonthWorks
 {
-    private $listMonth = [[], [], [], [], [], [], [], [], [], [], [], []];
-    private $arrayAllMonth = [];
 
-    public function get_day_of_work_fulltime($member_fulltime, $workday)
+    public function get_day_of_work($member, $workday)
     {
-
-        for ($i = 0; $i < count($member_fulltime); $i++) {
+        foreach ($member as $v) {
+            if ($v->getHasLunchBreak() == 1) {
+                $has_lunch_break = 90 * 60;
+            }
+            else{
+                $has_lunch_break = 0;
+            }
             $count = 0;
             foreach ($workday as $value) {
-                $work_hour = strtotime($value->getEndDatetime()) - strtotime($value->getStartDatetime());
-                if ($member_fulltime[$i]->getCode() == $value->getMemberCode()) {
-                    if (((($work_hour - 90 * 60) / 3600) >= 4) && ((($work_hour - 90 * 60) / 3600) < 8)) {
+                if ( $value->getMemberCode() == $v->getCode()) {
+                   $end_time = strtotime($v->getStartWorkTime()) + $v->getWorkHour() * 3600 + $has_lunch_break;
+                    if ((date("H:i:s", strtotime($value->getStartDatetime())) <= date("H:i:s", strtotime($v->getStartWorkTime()))) && (date("H:i:s", strtotime($value->getEndDatetime())) >= date("H:i:s", $end_time))) {
+                        $count =  $count + 1;
+                    }
+                    else{
                         $count = $count + 0.5;
                     }
-                    if ((($work_hour - 90 * 60) / 3600) >= 8) {
-                        $count = $count + 1;
-                    }
                 }
             }
-            $member_fulltime[$i]->setWorkdays($count);
-        }
-    }
 
-    public function get_day_of_work_parttime($member_parttime, $workday)
-    {
-        for ($i = 0; $i < count($member_parttime); $i++) {
-            $count = 0;
-            foreach ($workday as $value) {
-                $work_hour = strtotime($value->getEndDatetime()) - strtotime($value->getStartDatetime());
-                if ($member_parttime[$i]->getCode() == $value->getMemberCode()) {
-                    if (($work_hour / 3600) >= $member_parttime[$i]->getWorkhour()) {
-                        $count = $count + 1;
-                    }
-                }
-            }
-            $member_parttime[$i]->setWorkdays($count);
+            $v->setWorkdays($count);
         }
-    }
 
-    public function Month($workday)
-    {
-        foreach ($workday as $item) {
-            $date = getdate(strtotime($item->getStartDateTime()));
-            for ($i = 1; $i <= count($this->listMonth); $i++) {
-                if ($date['mon'] == $i) {
-                    array_push($this->listMonth[$i - 1], $item);
-                }
-            }
-        }
-        return $this->listMonth;
-    }
-
-    public function AllMonth_fulltime($member_fulltime)
-    {
-        foreach ($this->listMonth as $month) {
-            $people = [];
-            foreach ($member_fulltime as $member) {
-                $count = 0;
-                foreach ($month as $array) {
-                    $work_hour = strtotime($array->getEndDatetime()) - strtotime($array->getStartDatetime());
-                    if ($array->getMemberCode() == $member->getCode()) {
-                        if (((($work_hour - 90 * 60) / 3600) >= 4)
-                            && ((($work_hour - 90 * 60) / 3600) < 8)) {
-                            $count = $count + 0.5;
-                        }
-                        if ((($work_hour - 90 * 60) / 3600) >= 8) {
-                            $count = $count + 1;
-                        }
-                        $people[(int)$member->getCode()] = $count;
-                    }
-                }
-            }
-            $this->arrayAllMonth[] = $people;
-        }
-        return $this->arrayAllMonth;
-    }
-
-    public function AllMonth_parttime($member_parttime)
-    {
-        foreach ($this->listMonth as $month) {
-            $people = [];
-            foreach ($member_parttime as $member) {
-                $count = 0;
-                foreach ($month as $array) {
-                    $work_hour = strtotime($array->getEndDatetime()) - strtotime($array->getStartDatetime());
-                    if ($array->getMemberCode() == $member->getCode()) {
-                        if (($work_hour / 3600) >= $member->getWorkhour()) {
-                            $count = $count + 1;
-                        }
-                        $people[(int)$member->getCode()] = $count;
-                    }
-                }
-            }
-            $this->arrayAllMonth[] = $people;
-        }
-        return $this->arrayAllMonth;
     }
 
     public function Money($member)
     {
         for ($i = 0; $i < count($member); $i++) {
-            if (!isset($this->arrayAllMonth[3][(int)$member[$i]->getCode()])) {
-                $this->arrayAllMonth[3][(int)$member[$i]->getCode()] = 0;
-            }
-        }
-        for ($i = 0; $i < count($member); $i++) {
-            $real_money = $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30')) * $this->arrayAllMonth[3][(int)$member[$i]->getCode()];
+
+            $real_money = $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30')) * $member[$i]->getWorkdays();
+
             $member[$i]->setSalary($real_money);
         }
-    }
 
+    }
 }
 
 $fulltime = new ListMonthWorks();
-$fulltime->Month($worktime);
-$fulltime->AllMonth_fulltime($member_fulltime);
-$fulltime->Money($member_fulltime);
-$fulltime->get_day_of_work_fulltime($member_fulltime, $worktime);
 
+$fulltime->get_day_of_work($member_fulltime, $worktime);
+$fulltime->Money($member_fulltime);
 
 $parttime = new ListMonthWorks();
-$parttime->Month($worktime);
-$parttime->AllMonth_parttime($member_parttime);
-$parttime->Money($member_parttime);
-$parttime->get_day_of_work_parttime($member_parttime, $worktime);
 
+$parttime->get_day_of_work($member_parttime, $worktime);
+$parttime->Money($member_parttime);
 
 print_r($member_fulltime);
 print_r($member_parttime);
