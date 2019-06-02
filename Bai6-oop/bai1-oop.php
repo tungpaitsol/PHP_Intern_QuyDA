@@ -138,58 +138,49 @@ for ($i = 0; $i < count($listWorkTime); $i++) {
     array_push($worktime, $z = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']));
 }
 
-class WorkDay
-{
-    protected static $holidays = ["2019-01-01", "2019-02-04", "2019-02-05", "2019-02-06", "2019-02-07", "2019-02-08", "2019-04-14", "2019-04-30", "2019-05-01", "2019-09-02"];
-
-    public static function getDay($end, $start)
-    {
-        $end->modify('+1 day');
-        $days = $end->diff($start)->days;
-        return $days;
-    }
-
-    public static function getPeriod($end, $start)
-    {
-        return new DatePeriod($start, new DateInterval('P1D'), $end);
-    }
-
-    public static function getWorkingDays($start, $end)
-    {
-        $day = WorkDay::getDay($end, $start);
-        foreach (WorkDay::getPeriod($end, $start) as $dt) {
-            $curr = $dt->format('D');
-            if ($curr == 'Sat' || $curr == 'Sun') {
-                $day--;
-            }
-            if (in_array($dt->format('Y-m-d'), WorkDay::$holidays)) {
-                $day--;
-            }
-        }
-        return $day;
-    }
-}
 
 class ListMonthWorks
 {
+    private $holidays = ["2019-01-01", "2019-02-04", "2019-02-05", "2019-02-06", "2019-02-07", "2019-02-08", "2019-04-14", "2019-04-30", "2019-05-01", "2019-09-02"];
+
+
+    public function getWorkingDays($start, $end)
+    {
+        $day_off = 0;
+
+        for ($i = strtotime($start); $i <= strtotime($end); $i = $i + 86400) {
+            if (Date('D', $i) == 'Sat' || Date('D', $i) == 'Sun') {
+                $day_off++;
+            }
+
+        }
+
+        for ($i = strtotime($start); $i <= strtotime($end); $i = $i + 86400) {
+            foreach ($this->holidays as $day) {
+                if (Date('d', $i) == Date('d', strtotime($day)) && Date('m', $i) == Date('m', strtotime($day))) {
+                    $day_off++;
+                }
+            }
+        }
+
+        return Date('d', strtotime($end)) - $day_off;
+    }
 
     public function get_day_of_work($member, $workday)
     {
         foreach ($member as $v) {
             if ($v->getHasLunchBreak() == 1) {
                 $has_lunch_break = 90 * 60;
-            }
-            else{
+            } else {
                 $has_lunch_break = 0;
             }
             $count = 0;
             foreach ($workday as $value) {
-                if ( $value->getMemberCode() == $v->getCode()) {
-                   $end_time = strtotime($v->getStartWorkTime()) + $v->getWorkHour() * 3600 + $has_lunch_break;
+                if ($value->getMemberCode() == $v->getCode()) {
+                    $end_time = strtotime($v->getStartWorkTime()) + $v->getWorkHour() * 3600 + $has_lunch_break;
                     if ((date("H:i:s", strtotime($value->getStartDatetime())) <= date("H:i:s", strtotime($v->getStartWorkTime()))) && (date("H:i:s", strtotime($value->getEndDatetime())) >= date("H:i:s", $end_time))) {
-                        $count =  $count + 1;
-                    }
-                    else{
+                        $count = $count + 1;
+                    } else {
                         $count = $count + 0.5;
                     }
                 }
@@ -204,7 +195,7 @@ class ListMonthWorks
     {
         for ($i = 0; $i < count($member); $i++) {
 
-            $real_money = $member[$i]->getSalary() / WorkDay::getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30')) * $member[$i]->getWorkdays();
+            $real_money = $member[$i]->getSalary() / $this->getWorkingDays('2019-04-01', '2019-04-30') * $member[$i]->getWorkdays();
 
             $member[$i]->setSalary($real_money);
         }
