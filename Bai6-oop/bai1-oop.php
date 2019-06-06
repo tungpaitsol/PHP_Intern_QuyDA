@@ -146,21 +146,22 @@ class ListMonthWorks
 
     public function WorkingDays($worktime)
     {
-        $month = $worktime[0]->getStartDatetime();
+        $month = $worktime[rand(0,count($worktime))]->getStartDatetime();
         $y = date("Y",strtotime($month));
         $m = date("m",strtotime($month));
 
         $day_off = 0;
 
         for ($i = 1; $i <= date("t",strtotime($month)); $i++) {
-            if (Date('D', strtotime(sprintf("%u-%u-%u", $y, $m, $i))) == 'Sat' || Date('D', strtotime(sprintf("%u-%u-%u", $y, $m, $i))) == 'Sun') {
+            $d = Date('D', strtotime(sprintf("%u-%02d-%02d", $y, $m, $i)));
+            if ($d == 'Sat' || $d == 'Sun') {
                 $day_off++;
             }
         }
 
         for ($i = 1; $i <= date("t",strtotime($month)); $i++) {
             foreach ($this->holidays as $day) {
-                if (strtotime(sprintf("%u-%u-%u", $y, $m, $i)) == strtotime($day)) {
+                if (strtotime(sprintf("%u-%02d-%02d", $y, $m, $i)) == strtotime($day)) {
                     $day_off++;
                 }
             }
@@ -208,7 +209,6 @@ $fulltime = new ListMonthWorks();
 
 $fulltime->WorkDay($member_fulltime, $worktime);
 $fulltime->Salary($member_fulltime, $worktime);
-$fulltime->WorkingDays($worktime);
 
 $parttime = new ListMonthWorks();
 
