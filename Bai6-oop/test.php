@@ -157,8 +157,8 @@ $listWorkTime = array(
     ),
     array(
         'member_code' => '003',
-        'start_datetime' => '2019-04-05 09:02:00',
-        'end_datetime' => '2019-04-05 17:40:00'
+        'start_datetime' => '2019-05-05 09:02:00',
+        'end_datetime' => '2019-05-05 17:40:00'
     ),
     array(
         'member_code' => '003',
@@ -215,8 +215,8 @@ $listWorkTime = array(
     ),
     array(
         'member_code' => '005',
-        'start_datetime' => '2019-04-04 08:20:00',
-        'end_datetime' => '2019-04-04 12:10:00'
+        'start_datetime' => '2019-08-04 08:20:00',
+        'end_datetime' => '2019-08-04 12:10:00'
     ),
     array(
         'member_code' => '005',
@@ -231,61 +231,110 @@ $listWorkTime = array(
 
 );
 
-$list = [[], [], [], [], [], [], [], [], [], [], [], []];
+//function getWorkingDays($startDate,$endDate,$holidays){
+//    $endDate = strtotime($endDate);
+//    $startDate = strtotime($startDate);
+//
+//    $days = ($endDate - $startDate) / 86400 + 1;
+//
+//    $no_full_weeks = floor($days / 7);
+//    $no_remaining_days = fmod($days, 7);
+//
+//    $the_first_day_of_week = date("N", $startDate);
+//    $the_last_day_of_week = date("N", $endDate);
+//
+//    if ($the_first_day_of_week <= $the_last_day_of_week) {
+//        if ($the_first_day_of_week <= 6 && 6 <= $the_last_day_of_week) $no_remaining_days--;
+//        if ($the_first_day_of_week <= 7 && 7 <= $the_last_day_of_week) $no_remaining_days--;
+//    }
+//    else {
+//
+//        if ($the_first_day_of_week == 7) {
+//            $no_remaining_days--;
+//
+//            if ($the_last_day_of_week == 6) {
+//                $no_remaining_days--;
+//            }
+//        }
+//        else {
+//
+//            $no_remaining_days -= 2;
+//        }
+//    }
+//    $workingDays = $no_full_weeks * 5;
+//    if ($no_remaining_days > 0 )
+//    {
+//        $workingDays += $no_remaining_days;
+//    }
+//
+//
+//    foreach($holidays as $holiday){
+//        $time_stamp=strtotime($holiday);
+//
+//        if ($startDate <= $time_stamp && $time_stamp <= $endDate && date("N",$time_stamp) != 6 && date("N",$time_stamp) != 7)
+//            $workingDays--;
+//    }
+//
+//    return $workingDays;
+//}
+//
+//$holidays=["2019-01-01","2019-02-04","2019-02-05","2019-02-06","2019-02-07","2019-02-08","2019-04-14","2019-04-30","2019-05-01","2019-09-02"];
+//
+//$workday1 = getWorkingDays("2019-01-01","2019-01-31", $holidays);
+//$workday2 = getWorkingDays("2019-02-01","2019-02-28", $holidays);
+//$workday3 = getWorkingDays("2019-03-01","2019-03-31", $holidays);
+//$workday4 = getWorkingDays("2019-04-01","2019-04-30", $holidays);
+//$workday5 = getWorkingDays("2019-05-01","2019-05-31", $holidays);
+//$workday6 = getWorkingDays("2019-06-01","2019-06-30", $holidays);
+//$workday7 = getWorkingDays("2019-07-01","2019-07-31", $holidays);
+//$workday8 = getWorkingDays("2019-08-01","2019-08-31", $holidays);
+//$workday9 = getWorkingDays("2019-09-01","2019-09-30", $holidays);
+//$workday10 = getWorkingDays("2019-10-01","2019-10-31", $holidays);
+//$workday11 = getWorkingDays("2019-11-01","2019-11-30", $holidays);
+//$workday12 = getWorkingDays("2019-12-01","2019-12-31", $holidays);
 
-$day_oof = array(
-    strtotime('2019-01-01'),
-    strtotime('2019-02-04'),
-    strtotime('2019-02-05'),
-    strtotime('2019-02-06'),
-    strtotime('2019-02-07'),
-    strtotime('2019-02-08'),
-    strtotime('2019-04-14'),
-    strtotime('2019-04-30'),
-    strtotime('2019-05-01'),
-    strtotime('2019-09-02'),
-);
+function getWorkingDays($start, $end)
+{
+    $end->modify('+1 day');
 
-$allDayOff = [];
-foreach ($day_oof as $value) {
-    $date = getdate($value);
-    array_push($allDayOff, $date['mon']);
-}
+    $interval = $end->diff($start);
 
-$numberHollyday = [];
-for ($i = 1; $i < 13; $i++) {
-    $dem = 0;
-    foreach ($allDayOff as $value) {
-        if ($i == $value) {
-            $dem++;
+    $days = $interval->days;
+
+    $period = new DatePeriod($start, new DateInterval('P1D'), $end);
+
+    $holidays = ["2019-01-01", "2019-02-04", "2019-02-05", "2019-02-06", "2019-02-07", "2019-02-08", "2019-04-14", "2019-04-30", "2019-05-01", "2019-09-02"];
+
+    foreach ($period as $dt) {
+        $curr = $dt->format('D');
+
+        if ($curr == 'Sat' || $curr == 'Sun') {
+            $days--;
+        }
+
+        if (in_array($dt->format('Y-m-d'), $holidays)) {
+            $days--;
         }
     }
-    array_push($numberHollyday, $dem);
+
+    return $days;
 }
 
-$workday1 = 31 - 8 - $numberHollyday[0];
+$workday1 = getWorkingDays(new DateTime('2019-01-01'), new DateTime('2019-01-31'));
+$workday2 = getWorkingDays(new DateTime('2019-02-01'), new DateTime('2019-02-28'));
+$workday3 = getWorkingDays(new DateTime('2019-03-01'), new DateTime('2019-03-31'));
+$workday4 = getWorkingDays(new DateTime('2019-04-01'), new DateTime('2019-04-30'));
+$workday5 = getWorkingDays(new DateTime('2019-05-01'), new DateTime('2019-05-31'));
+$workday6 = getWorkingDays(new DateTime('2019-06-01'), new DateTime('2019-06-30'));
+$workday7 = getWorkingDays(new DateTime('2019-07-01'), new DateTime('2019-07-31'));
+$workday8 = getWorkingDays(new DateTime('2019-08-01'), new DateTime('2019-08-31'));
+$workday9 = getWorkingDays(new DateTime('2019-09-01'), new DateTime('2019-09-30'));
+$workday10 = getWorkingDays(new DateTime('2019-10-01'), new DateTime('2019-10-31'));
+$workday11 = getWorkingDays(new DateTime('2019-11-01'), new DateTime('2019-11-30'));
+$workday12 = getWorkingDays(new DateTime('2019-12-01'), new DateTime('2019-12-31'));
 
-$workday2 = 28 - 8 - $numberHollyday[1];
 
-$workday3 = 31 - 8 - $numberHollyday[2];
-
-$workday4 = 30 - 8 - $numberHollyday[3];
-
-$workday5 = 31 - 8 - $numberHollyday[4];
-
-$workday6 = 30 - 8 - $numberHollyday[5];
-
-$workday7 = 31 - 8 - $numberHollyday[6];
-
-$workday8 = 31 - 8 - $numberHollyday[7];
-
-$workday9 = 30 - 8 - $numberHollyday[8];
-
-$workday10 = 31 - 8 - $numberHollyday[9];
-
-$workday11 = 30 - 8 - $numberHollyday[10];
-
-$workday12 = 31 - 8 - $numberHollyday[11];
+$list = [[], [], [], [], [], [], [], [], [], [], [], []];
 
 foreach ($listWorkTime as $item) {
     $date = getdate(strtotime($item['start_datetime']));
@@ -325,56 +374,52 @@ foreach ($listWorkTime as $item) {
 //    if ($date['mon'] == 12) {
 //        array_push($list[11], $item);
 //    }
-    for ($i=1; $i <= count($list); $i++){
+    for ($i = 1; $i <= count($list); $i++) {
         if ($date['mon'] == $i) {
-        array_push($list[$i -1], $item);
-    }
+            array_push($list[$i - 1], $item);
+        }
     }
 
 }
 
+
 $workdays = [];
-foreach ($listMemberFullTime as $v) {
+foreach ($listMemberPartTime as $v) {
     $count = 0;
     foreach ($listWorkTime as $value) {
         if ($v['code'] == $value['member_code']) {
-            if ((((strtotime($value['end_datetime']) - strtotime($value['start_datetime'])) / 3600) >= 4) && (((strtotime($value['end_datetime']) - strtotime($value['start_datetime'])) / 3600) < 8)) {
-                $count = $count + 0.5;
-            }
-            if (((strtotime($value['end_datetime']) - strtotime($value['start_datetime'])) / 3600) >= 8) {
+            if (((strtotime($value['end_datetime']) - strtotime($value['start_datetime'])) / 3600) >= $v['work_hour']) {
                 $count = $count + 1;
             }
         }
     }
     array_push($workdays, $count);
 }
+//print_r($workdays);
 
-for ($i = 0; $i < count($listMemberFullTime); $i++) {
-    $listMemberFullTime[$i]['workdays'] = $workdays[$i];
+for ($i = 0; $i < count($listMemberPartTime); $i++) {
+    $listMemberPartTime[$i]['workdays'] = $workdays[$i];
 }
 
 $arrayAllMonth = [];
 foreach ($list as $month) {
     $people = [];
-    foreach ($listMemberFullTime as $member) {
+    foreach ($listMemberPartTime as $member) {
         $count = 0;
         foreach ($month as $array) {
             if ($array['member_code'] == $member['code']) {
-                if ((((strtotime($array['end_datetime']) - strtotime($array['start_datetime'])) / 3600 - 1.5) >= 4)
-                    && (((strtotime($array['end_datetime']) - strtotime($array['start_datetime'])) / 3600 - 1.5) < 8)) {
-                    $count = $count + 0.5;
-                }
-                if (((strtotime($array['end_datetime']) - strtotime($array['start_datetime'])) / 3600 - 1.5) >= 8) {
+                if (((strtotime($array['end_datetime']) - strtotime($array['start_datetime'])) / 3600) >= $member['work_hour']) {
                     $count = $count + 1;
                 }
 
-                $people[(int)$member['code'] - 1] = $count;
+                $people[(int)$member['code']] = $count;
             }
         }
 
     }
     $arrayAllMonth[] = $people;
 }
+
 
 $month1 = $arrayAllMonth[0];
 $month2 = $arrayAllMonth[1];
@@ -389,67 +434,71 @@ $month10 = $arrayAllMonth[9];
 $month11 = $arrayAllMonth[10];
 $month12 = $arrayAllMonth[11];
 
+print_r($arrayAllMonth);
+
 $money = [];
 
-for ($i = 0; $i < count($listMemberFullTime); $i++) {
-    if (!isset($month1[$i])) {
-        $month1[$i] = 0;
+for ($k = 0; $k < count($listMemberPartTime); $k++) {
+
+    if (!isset($month1[(int)$listMemberPartTime[$k]['code']])) {
+        $month1[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month2[$i])) {
-        $month2[$i] = 0;
+    if (!isset($month2[(int)$listMemberPartTime[$k]['code']])) {
+        $month2[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month3[$i])) {
-        $month3[$i] = 0;
+    if (!isset($month3[(int)$listMemberPartTime[$k]['code']])) {
+        $month3[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month4[$i])) {
-        $month4[$i] = 0;
+    if (!isset($month4[(int)$listMemberPartTime[$k]['code']])) {
+        $month4[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month5[$i])) {
-        $month5[$i] = 0;
+    if (!isset($month5[(int)$listMemberPartTime[$k]['code']])) {
+        $month5[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month6[$i])) {
-        $month6[$i] = 0;
+    if (!isset($month6[(int)$listMemberPartTime[$k]['code']])) {
+        $month6[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month7[$i])) {
-        $month7[$i] = 0;
+    if (!isset($month7[(int)$listMemberPartTime[$k]['code']])) {
+        $month7[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month8[$i])) {
-        $month8[$i] = 0;
+    if (!isset($month8[(int)$listMemberPartTime[$k]['code']])) {
+        $month8[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month9[$i])) {
-        $month9[$i] = 0;
+    if (!isset($month9[(int)$listMemberPartTime[$k]['code']])) {
+        $month9[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month10[$i])) {
-        $month10[$i] = 0;
+    if (!isset($month10[(int)$listMemberPartTime[$k]['code']])) {
+        $month10[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month11[$i])) {
-        $month11[$i] = 0;
+    if (!isset($month11[(int)$listMemberPartTime[$k]['code']])) {
+        $month11[(int)$listMemberPartTime[$k]['code']] = 0;
     }
-    if (!isset($month12[$i])) {
-        $month12[$i] = 0;
+    if (!isset($month12[(int)$listMemberPartTime[$k]['code']])) {
+        $month12[(int)$listMemberPartTime[$k]['code']] = 0;
     }
 
     $real_money =
-        $listMemberFullTime[$i]['salary'] / $workday1 * $month1[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday2 * $month2[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday3 * $month3[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday4 * $month4[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday5 * $month5[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday6 * $month6[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday7 * $month7[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday8 * $month8[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday9 * $month9[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday10 * $month10[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday11 * $month11[$i]
-        + $listMemberFullTime[$i]['salary'] / $workday12 * $month12[$i];
+        $listMemberPartTime[$k]['salary'] / $workday1 * $month1[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday2 * $month2[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday3 * $month3[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday4 * $month4[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday5 * $month5[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday6 * $month6[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday7 * $month7[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday8 * $month8[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday9 * $month9[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday10 * $month10[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday11 * $month11[(int)$listMemberPartTime[$k]['code']]
+        + $listMemberPartTime[$k]['salary'] / $workday12 * $month12[(int)$listMemberPartTime[$k]['code']];
 
     array_push($money, $real_money);
 }
 
-for ($i = 0; $i < count($listMemberFullTime); $i++) {
-    $listMemberFullTime[$i]['salary'] = $money[$i];
+for ($i = 0; $i < count($listMemberPartTime); $i++) {
+    $listMemberPartTime[$i]['salary'] = $money[$i];
 }
 
 echo "<pre>";
-print_r($listMemberFullTime);
-print_r($arrayAllMonth);
+print_r($listMemberPartTime);
+
+
