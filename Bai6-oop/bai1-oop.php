@@ -144,29 +144,32 @@ class ListMonthWorks
     private $holidays = ["2019-01-01", "2019-02-04", "2019-02-05", "2019-02-06", "2019-02-07", "2019-02-08", "2019-04-14", "2019-04-30", "2019-05-01", "2019-09-02"];
 
 
-    public function getWorkingDays($start, $end)
+    public function WorkingDays($worktime)
     {
+        $month = $worktime[0]->getStartDatetime();
+        $y = date("Y",strtotime($month));
+        $m = date("m",strtotime($month));
+
         $day_off = 0;
 
-        for ($i = strtotime($start); $i <= strtotime($end); $i = $i + 86400) {
-            if (Date('D', $i) == 'Sat' || Date('D', $i) == 'Sun') {
+        for ($i = 1; $i <= date("t",strtotime($month)); $i++) {
+            if (Date('D', strtotime(sprintf("%u-%u-%u", $y, $m, $i))) == 'Sat' || Date('D', strtotime(sprintf("%u-%u-%u", $y, $m, $i))) == 'Sun') {
                 $day_off++;
             }
-
         }
 
-        for ($i = strtotime($start); $i <= strtotime($end); $i = $i + 86400) {
+        for ($i = 1; $i <= date("t",strtotime($month)); $i++) {
             foreach ($this->holidays as $day) {
-                if (Date('d', $i) == Date('d', strtotime($day)) && Date('m', $i) == Date('m', strtotime($day))) {
+                if (strtotime(sprintf("%u-%u-%u", $y, $m, $i)) == strtotime($day)) {
                     $day_off++;
                 }
             }
         }
 
-        return Date('d', strtotime($end)) - $day_off;
+        return date("t",strtotime($worktime[0]->getStartDatetime())) - $day_off;
     }
 
-    public function get_day_of_work($member, $workday)
+    public function WorkDay($member, $workday)
     {
         foreach ($member as $v) {
             if ($v->getHasLunchBreak() == 1) {
@@ -191,27 +194,26 @@ class ListMonthWorks
 
     }
 
-    public function Money($member)
+    public function Salary($member, $worktime)
     {
-        for ($i = 0; $i < count($member); $i++) {
+        foreach ($member as $item) {
+            $real_money = $item->getSalary() / $this->WorkingDays($worktime) * $item->getWorkdays();
 
-            $real_money = $member[$i]->getSalary() / $this->getWorkingDays('2019-04-01', '2019-04-30') * $member[$i]->getWorkdays();
-
-            $member[$i]->setSalary($real_money);
+            $item->setSalary($real_money);
         }
-
     }
 }
 
 $fulltime = new ListMonthWorks();
 
-$fulltime->get_day_of_work($member_fulltime, $worktime);
-$fulltime->Money($member_fulltime);
+$fulltime->WorkDay($member_fulltime, $worktime);
+$fulltime->Salary($member_fulltime, $worktime);
+$fulltime->WorkingDays($worktime);
 
 $parttime = new ListMonthWorks();
 
-$parttime->get_day_of_work($member_parttime, $worktime);
-$parttime->Money($member_parttime);
+$parttime->WorkDay($member_parttime, $worktime);
+$parttime->Salary($member_parttime, $worktime);
 
 print_r($member_fulltime);
 print_r($member_parttime);
