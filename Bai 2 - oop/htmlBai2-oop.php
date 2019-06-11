@@ -47,22 +47,10 @@
 
 class Language
 {
-
-    private $create;
-    private $firstName;
-    private $lastName;
-    private $email;
-    private $passWord;
-    private $conFirm;
-    private $terms;
-    private $termsPrivacy;
-    private $register;
-    private $signIn;
-    private $logIn;
+    private $arr;
 
     public function __construct($txt)
     {
-        $arr = [];
         $file = fopen($txt, "r");
         while (feof($file) == false) {
             $lg[] = fgets($file);
@@ -72,75 +60,13 @@ class Language
         foreach ($lg as $key => $value) {
             $result = explode('="', $value);
             $outcome = explode('"', $result[1]);
-            $arr[$result[0]] = $outcome[0];
+            $this->arr[$result[0]] = $outcome[0];
         }
-
-        $this->create = $arr['create'];
-        $this->firstName = $arr['firstName'];
-        $this->lastName = $arr['lastName'];
-        $this->email = $arr['email'];
-        $this->passWord = $arr['passWord'];
-        $this->conFirm = $arr['conFirm'];
-        $this->terms = $arr['terms'];
-        $this->termsPrivacy = $arr['termsPrivacy'];
-        $this->register = $arr['register'];
-        $this->signIn = $arr['signIn'];
-        $this->logIn = $arr['logIn'];
     }
 
-    public function getCreate()
+    public function getArray()
     {
-        return $this->create;
-    }
-
-    public function getfirstName()
-    {
-        return $this->firstName;
-    }
-
-    public function getlastName()
-    {
-        return $this->lastName;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getPassWord()
-    {
-        return $this->passWord;
-    }
-
-    public function getConFirm()
-    {
-        return $this->conFirm;
-    }
-
-    public function getTerms()
-    {
-        return $this->terms;
-    }
-
-    public function getTermsPrivacy()
-    {
-        return $this->termsPrivacy;
-    }
-
-    public function getRegister()
-    {
-        return $this->register;
-    }
-
-    public function getSignIn()
-    {
-        return $this->signIn;
-    }
-
-    public function getLogIn()
-    {
-        return $this->logIn;
+        return $this->arr;
     }
 
     public static function html($vi, $eng)
@@ -161,54 +87,32 @@ class Language
 }
 
 $languageVi = new Language("vi.txt");
-
-    $vi_register = $languageVi->getRegister();
-    $vi_create = $languageVi->getCreate();
-    $vi_firstName = $languageVi->getfirstName();
-    $vi_lastName = $languageVi->getlastName();
-    $vi_email = $languageVi->getEmail();
-    $vi_passWord = $languageVi->getPassWord();
-    $vi_conFirm = $languageVi->getConFirm();
-    $vi_terms = $languageVi->getTerms();
-    $vi_termsPrivacy = $languageVi->getTermsPrivacy();
-    $vi_signin = $languageVi->getSignIn();
-    $vi_login = $languageVi->getLogIn();
+$vi = $languageVi->getArray();
 
 $languageEng = new Language("eng.txt");
-
-    $eng_register = $languageEng->getRegister();
-    $eng_create = $languageEng->getCreate();
-    $eng_firstName = $languageEng->getfirstName();
-    $eng_lastName = $languageEng->getlastName();
-    $eng_email = $languageEng->getEmail();
-    $eng_passWord = $languageEng->getPassWord();
-    $eng_conFirm = $languageEng->getConFirm();
-    $eng_terms = $languageEng->getTerms();
-    $eng_termsPrivacy = $languageEng->getTermsPrivacy();
-    $eng_signin = $languageEng->getSignIn();
-    $eng_login = $languageEng->getLogIn();
+$eng = $languageEng->getArray();
 
 ?>
 
 <form method="post">
     <div class="container">
-        <h1><?php Language::html($vi_register, $eng_register) ?></h1>
-        <p><?php Language::html($vi_create, $eng_create) ?></p>
-        <input type="text" placeholder="<?php Language::html($vi_firstName, $eng_firstName) ?>" name="firstname">
-        <input type="text" placeholder="<?php Language::html($vi_lastName, $eng_lastName) ?>" name="lastname">
-        <input type="text" placeholder="<?php Language::html($vi_email, $eng_email) ?>" name="email">
-        <input type="password" placeholder="<?php Language::html($vi_passWord, $eng_passWord) ?>" name="password">
-        <input type="password" placeholder="<?php Language::html($vi_conFirm, $eng_conFirm) ?>" name="confirm">
+        <h1><?php Language::html($vi['register'], $eng['register']) ?></h1>
+        <p><?php Language::html($vi['create'], $eng['create']) ?></p>
+        <input type="text" placeholder="<?php Language::html($vi['firstName'], $eng['firstName']) ?>" name="firstname">
+        <input type="text" placeholder="<?php Language::html($vi['lastName'], $eng['lastName']) ?>" name="lastname">
+        <input type="text" placeholder="<?php Language::html($vi['email'], $eng['email']) ?>" name="email">
+        <input type="password" placeholder="<?php Language::html($vi['passWord'], $eng['passWord']) ?>" name="password">
+        <input type="password" placeholder="<?php Language::html($vi['conFirm'], $eng['conFirm']) ?>" name="confirm">
         <div class="terms">
-            <p><?php Language::html($vi_terms, $eng_terms) ?></p>
-            <p><a href="#"><?php Language::html($vi_termsPrivacy, $eng_termsPrivacy) ?></a></p>
+            <p><?php Language::html($vi['terms'], $eng['terms']) ?></p>
+            <p><a href="#"><?php Language::html($vi['termsPrivacy'], $eng['termsPrivacy']) ?></a></p>
         </div>
-        <input type="submit" value="<?php Language::html($vi_register, $eng_register) ?>" class="registerbtn">
+        <input type="submit" value="<?php Language::html($vi['register'], $eng['register']) ?>" class="registerbtn">
     </div>
 
     <div class="signin">
-        <p><?php Language::html($vi_signin, $eng_signin) ?></p>
-        <p><a href="#"><?php Language::html($vi_login, $eng_login) ?></a></p>
+        <p><?php Language::html($vi['signIn'], $eng['signIn']) ?></p>
+        <p><a href="#"><?php Language::html($vi['logIn'], $eng['logIn']) ?></a></p>
     </div>
 
     <div>
