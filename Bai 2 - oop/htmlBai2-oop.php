@@ -8,7 +8,7 @@
     <title>Bài 2 - oop</title>
     <style>
         * {
-            box-sizing: border-box
+            box-sizing: border-box;
         }
 
         input[type=text], input[type=password] {
@@ -44,89 +44,72 @@
 </head>
 <body>
 <?php
+session_start();
 
 class Language
 {
-    private $arr;
+    private $value;
 
-    public function __construct($txt)
+    public function __construct($l)
     {
-        $file = fopen($txt, "r");
+        $file = fopen('Language_folder/' . $l . '.txt', "r");
         while (feof($file) == false) {
-            $lg[] = fgets($file);
+            $lang[] = fgets($file);
         }
         fclose($file);
 
-        foreach ($lg as $key => $value) {
-            $result = explode('="', $value);
-            $outcome = explode('"', $result[1]);
-            $this->arr[$result[0]] = $outcome[0];
+        foreach ($lang as $key => $value) {
+            $result = explode('=', $value);
+            $outcome = str_replace(['"', "\n"], '', $result[1]);
+            $this->value[$result[0]] = $outcome;
         }
+        print_r($this->value);
     }
 
-    public function getArray()
+    public function getValue($infor)
     {
-        return $this->arr;
-    }
-
-    public static function html($vi, $eng)
-    {
-        if (isset($_POST['select'])) {
-            if ($_POST['select'] == '1') {
-                echo $vi;
-            }
-            if ($_POST['select'] == '2') {
-                echo $eng;
-            }
-        }
-        else {
-            echo $eng;
-        }
+        return $this->value[$infor];
     }
 
 }
 
-$languageVi = new Language("vi.txt");
-$vi = $languageVi->getArray();
-
-$languageEng = new Language("eng.txt");
-$eng = $languageEng->getArray();
+if (isset($_GET['select'])) {
+    $l = $_GET['select'];
+    $_SESSION['select'] = $_GET['select'];
+}
+$lang = new Language($l);
 
 ?>
 
-<form method="post">
+<form method="get">
     <div class="container">
-        <h1><?php Language::html($vi['register'], $eng['register']) ?></h1>
-        <p><?php Language::html($vi['create'], $eng['create']) ?></p>
-        <input type="text" placeholder="<?php Language::html($vi['firstName'], $eng['firstName']) ?>" name="firstname">
-        <input type="text" placeholder="<?php Language::html($vi['lastName'], $eng['lastName']) ?>" name="lastname">
-        <input type="text" placeholder="<?php Language::html($vi['email'], $eng['email']) ?>" name="email">
-        <input type="password" placeholder="<?php Language::html($vi['passWord'], $eng['passWord']) ?>" name="password">
-        <input type="password" placeholder="<?php Language::html($vi['conFirm'], $eng['conFirm']) ?>" name="confirm">
+        <h1><?php echo $lang->getValue('register') ?></h1>
+        <p><?php echo $lang->getValue('create') ?></p>
+        <input type="text" placeholder="<?php echo $lang->getValue('firstName') ?>">
+        <input type="text" placeholder="<?php echo $lang->getValue('lastName') ?>">
+        <input type="text" placeholder="<?php echo $lang->getValue('email') ?>">
+        <input type="password" placeholder="<?php echo $lang->getValue('passWord') ?>">
+        <input type="password" placeholder="<?php echo $lang->getValue('conFirm') ?>">
         <div class="terms">
-            <p><?php Language::html($vi['terms'], $eng['terms']) ?></p>
-            <p><a href="#"><?php Language::html($vi['termsPrivacy'], $eng['termsPrivacy']) ?></a></p>
+            <p><?php $lang->getValue('terms') ?></p>
+            <p><a href="#"><?php $lang->getValue('termsPrivacy') ?></a></p>
         </div>
-        <input type="submit" value="<?php Language::html($vi['register'], $eng['register']) ?>" class="registerbtn">
+        <input type="submit" value="<?php echo $lang->getValue('register') ?>" class="registerbtn">
     </div>
 
     <div class="signin">
-        <p><?php Language::html($vi['signIn'], $eng['signIn']) ?></p>
-        <p><a href="#"><?php Language::html($vi['logIn'], $eng['logIn']) ?></a></p>
+        <p><?php echo $lang->getValue('signIn') ?></p>
+        <p><a href="#"><?php echo $lang->getValue('logIn') ?></a></p>
     </div>
 
     <div>
         <select name="select">
-            <option value="1" <?php if (isset($_POST['select'])) {
-                if ($_POST['select'] == '1') {
-                    echo 'selected';
-                }
+            <option value="vi" <?php if (isset($_GET['select']) && $_GET['select'] == 'vi') {
+                echo 'selected';
             } ?>>Tiếng Việt
             </option>
-            <option value="2" <?php if (isset($_POST['select'])) {
-                if ($_POST['select'] == '2') {
-                    echo 'selected';
-                }
+            <option value="eng" <?php if (isset($_GET['select']) && $_GET['select'] == 'eng') {
+                echo 'selected';
             } ?>>English
             </option>
         </select>
