@@ -48,11 +48,13 @@ session_start();
 
 class Language
 {
-    private $value;
+    private $code;
+    private $name;
 
-    public function __construct($l)
+    public function __construct($code)
     {
-        $file = fopen('Language_folder/' . $l . '.txt', "r");
+        $this->code = $code;
+        $file = fopen('Language_folder/' . $code . '.txt', "r");
         while (feof($file) == false) {
             $lang[] = fgets($file);
         }
@@ -61,18 +63,18 @@ class Language
         foreach ($lang as $key => $value) {
             $result = explode('=', $value);
             $outcome = str_replace(['"', "\n"], '', $result[1]);
-            $this->value[$result[0]] = $outcome;
+            $this->name[$result[0]] = $outcome;
         }
-        print_r($this->value);
     }
 
     public function getValue($infor)
     {
-        return $this->value[$infor];
+        return $this->name[$infor];
     }
 
 }
 
+$l = 'eng';
 if (isset($_GET['select'])) {
     $l = $_GET['select'];
     $_SESSION['select'] = $_GET['select'];
