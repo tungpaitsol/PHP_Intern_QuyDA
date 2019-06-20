@@ -74,11 +74,13 @@ class Language
 
 }
 
-$l = 'eng';
+$l = 'vi';
+$_SESSION['select']= $l;
 if (isset($_GET['select'])) {
     $l = $_GET['select'];
     $_SESSION['select'] = $_GET['select'];
 }
+
 $lang = new Language($l);
 
 ?>
@@ -106,18 +108,17 @@ $lang = new Language($l);
 
     <div>
         <select name="select">
-            <option value="vi" <?php if (isset($_GET['select']) && $_GET['select'] == 'vi') {
-                echo 'selected';
-            } ?>>Tiếng Việt
-            </option>
-            <option value="eng" <?php if (isset($_GET['select']) && $_GET['select'] == 'eng') {
+            <option value="eng" <?php if (isset($_SESSION['select']) && ($_SESSION['select'] == 'eng')) {
                 echo 'selected';
             } ?>>English
+            </option>
+            <option value="vi" <?php if (isset($_SESSION['select']) && ($_SESSION['select'] == 'vi')) {
+                echo 'selected';
+            } ?>>Tiếng Việt
             </option>
         </select>
         <input type="submit" name="input" value="submit">
     </div>
 </form>
-
 </body>
 </html>
